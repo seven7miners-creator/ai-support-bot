@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import twilio from "twilio";
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -44,6 +48,18 @@ async function askAI(message) {
 }
 
 // Chat route
+app.post("/sms", async (req, res) => {
+    const incomingMessage = req.body.Body;
+
+    const aiReply = await askAI(incomingMessage);
+
+    const twiml = new twilio.twiml.MessagingResponse();
+
+    twiml.message(aiReply);
+
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+});
 app.post("/chat", async (req, res) => {
 
   const userMessage = req.body.message;
