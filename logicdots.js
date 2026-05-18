@@ -46,6 +46,9 @@ async function askAI(message) {
 
 // Chat route
 app.post("/sms", async (req, res) => {
+
+    console.log("SMS received:", req.body);
+
     const incomingMessage = req.body.Body;
 
     const aiReply = await askAI(incomingMessage);
