@@ -1,37 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>IT Support Chat</title>
-</head>
-<body>
-  <h2>IT Support Chat</h2>
+<script>
+async function sendMessage() {
+    const input = document.getElementById("message");
+    const message = input.value;
 
-  <div id="chat"></div>
+    document.getElementById("chat").innerHTML += `<p><b>You:</b> ${message}</p>`;
 
-  <input id="message" placeholder="Type your issue..." />
-  <button onclick="sendMessage()">Send</button>
+    input.value = "";
 
-  <script>
-    async function sendMessage() {
-      const input = document.getElementById("message");
-      const message = input.value;
-
-      document.getElementById("chat").innerHTML += `<p><b>You:</b> ${message}</p>`;
-
-      input.value = "";
-
-      const response = await fetch("http://localhost:3000/chat", {
+    const response = await fetch("https://ai-support-bot-ksx6.onrender.com/chat", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({ message: message })
-      });
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      document.getElementById("chat").innerHTML += `<p><b>AI:</b> ${data.reply}</p>`;
-    }
-  </script>
-</body>
-</html>
+    document.getElementById("chat").innerHTML += `<p><b>AI:</b> ${data.reply}</p>`;
+}
+</script>
