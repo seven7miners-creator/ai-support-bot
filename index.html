@@ -1,22 +1,99 @@
-<script>
-async function sendMessage() {
-    const input = document.getElementById("message");
-    const message = input.value;
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LogicDots Service</title>
 
-    document.getElementById("chat").innerHTML += `<p><b>You:</b> ${message}</p>`;
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
 
-    input.value = "";
+    h2 {
+      color: #38bdf8;
+    }
 
-    const response = await fetch("https://ai-support-bot-ksx6.onrender.com/chat", {
+    #chat {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      height: 400px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 75%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #38bdf8;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+
+    .user {
+      color: #38bdf8;
+    }
+
+    .ai {
+      color: #4ade80;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>LogicDots Service AI</h2>
+
+  <div id="chat"></div>
+
+  <input id="message" placeholder="Type your issue..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById("message");
+      const message = input.value;
+
+      if (!message) return;
+
+      document.getElementById("chat").innerHTML += `
+        <p class="user"><b>You:</b> ${message}</p>
+      `;
+
+      input.value = "";
+
+      const response = await fetch("https://ai-support-bot-ksx6.onrender.com/chat", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ message: message })
-    });
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    document.getElementById("chat").innerHTML += `<p><b>AI:</b> ${data.reply}</p>`;
-}
-</script>
+      document.getElementById("chat").innerHTML += `
+        <p class="ai"><b>LogicDots AI:</b> ${data.reply}</p>
+      `;
+
+      document.getElementById("chat").scrollTop =
+        document.getElementById("chat").scrollHeight;
+    }
+  </script>
+</body>
+</html>
