@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import twilio from "twilio";
-import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
